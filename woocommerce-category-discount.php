@@ -1,254 +1,9 @@
-                                    "><?php _e('Boş bırakılırsa, süresiz olarak uygulanacaktır.', 'woocommerce-reduction-categorie'); ?></p>
-                                </td>
-                            </tr>
-                            <tr valign="top">
-                                <th scope="row"><?php _e('Aktif Et', 'woocommerce-reduction-categorie'); ?></th>
-                                <td>
-                                    <input type="checkbox" name="discount_enabled" value="1" <?php checked($edit_discount ? $edit_discount['enabled'] : 1, 1); ?> />
-                                </td>
-                            </tr>
-                        </table>
-                        
-                        <?php submit_button($edit_discount ? __('İndirimi Güncelle', 'woocommerce-reduction-categorie') : __('Yeni İndirim Ekle', 'woocommerce-reduction-categorie')); ?>
-                    </form>
-                    
-                    <h2><?php _e('Mevcut İndirimler', 'woocommerce-reduction-categorie'); ?></h2>
-                    
-                    <?php if (empty($discounts)): ?>
-                        <p><?php _e('Henüz indirim eklenmemiş.', 'woocommerce-reduction-categorie'); ?></p>
-                    <?php else: ?>
-                        <table class="wp-list-table widefat fixed striped">
-                            <thead>
-                                <tr>
-                                    <th><?php _e('İndirim Adı', 'woocommerce-reduction-categorie'); ?></th>
-                                    <th><?php _e('Tür', 'woocommerce-reduction-categorie'); ?></th>
-                                    <th><?php _e('Kategori/Marka', 'woocommerce-reduction-categorie'); ?></th>
-                                    <th><?php _e('Oran', 'woocommerce-reduction-categorie'); ?></th>
-                                    <th><?php _e('Rozet Metni', 'woocommerce-reduction-categorie'); ?></th>
-                                    <th><?php _e('Son Tarih', 'woocommerce-reduction-categorie'); ?></th>
-                                    <th><?php _e('Durum', 'woocommerce-reduction-categorie'); ?></th>
-                                    <th><?php _e('İşlemler', 'woocommerce-reduction-categorie'); ?></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($discounts as $discount_id => $discount): ?>
-                                    <?php 
-                                    // Kategori veya marka adını al
-                                    $term_name = '';
-                                    if ($discount['type'] === 'category') {
-                                        $term = get_term($discount['term_id'], 'product_cat');
-                                        if (!is_wp_error($term) && $term) {
-                                            $term_name = $term->name;
-                                        }
-                                    } else {
-                                        // Marka taksonomisini bul
-                                        $possible_taxonomies = array('product_brand', 'pa_brand', 'brand', 'pwb-brand', 'yith_product_brand');
-                                        foreach ($possible_taxonomies as $tax) {
-                                            if (taxonomy_exists($tax)) {
-                                                $term = get_term($discount['term_id'], $tax);
-                                                if (!is_wp_error($term) && $term) {
-                                                    $term_name = $term->name;
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    
-                                    // İndirimin aktif olup olmadığını kontrol et
-                                    $is_active = $discount['enabled'] ? true : false;
-                                    
-                                    // Son kullanma tarihi geçmiş mi kontrol et
-                                    if (!empty($discount['end_date'])) {
-                                        $end_date = strtotime($discount['end_date']);
-                                        $today = strtotime('today');
-                                        if ($end_date < $today) {
-                                            $is_active = false;
-                                        }
-                                    }
-                                    ?>
-                                    <tr>
-                                        <td><?php echo esc_html($discount['name']); ?></td>
-                                        <td><?php echo $discount['type'] === 'category' ? __('Kategori', 'woocommerce-reduction-categorie') : __('Marka', 'woocommerce-reduction-categorie'); ?></td>
-                                        <td><?php echo esc_html($term_name); ?></td>
-                                        <td><?php echo esc_html($discount['amount']); ?>%</td>
-                                        <td><?php echo esc_html($discount['badge_text']); ?></td>
-                                        <td>
-                                            <?php 
-                                            if (!empty($discount['end_date'])) {
-                                                echo date_i18n(get_option('date_format'), strtotime($discount['end_date']));
-                                            } else {
-                                                echo __('Süresiz', 'woocommerce-reduction-categorie');
-                                            }
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <?php if ($is_active): ?>
-                                                <span class="status-active"><?php _e('Aktif', 'woocommerce-reduction-categorie'); ?></span>
-                                            <?php else: ?>
-                                                <span class="status-inactive"><?php _e('Pasif', 'woocommerce-reduction-categorie'); ?></span>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td>
-                                            <a href="<?php echo admin_url('admin.php?page=wc-kategori-indirim&action=edit&discount_id=' . urlencode($discount_id)); ?>" class="button button-small"><?php _e('Düzenle', 'woocommerce-reduction-categorie'); ?></a>
-                                            <a href="<?php echo wp_nonce_url(admin_url('admin.php?page=wc-kategori-indirim&action=delete&discount_id=' . urlencode($discount_id)), 'delete_discount'); ?>" class="button button-small button-link-delete" onclick="return confirm('<?php _e('Bu indirimi silmek istediğinizden emin misiniz?', 'woocommerce-reduction-categorie'); ?>')"><?php _e('Sil', 'woocommerce-reduction-categorie'); ?></a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    <?php endif; ?>
-                    
-                    <div class="apply-discounts-container" style="margin-top: 20px;">
-                        <h3><?php _e('İndirimleri Şimdi Uygula', 'woocommerce-reduction-categorie'); ?></h3>
-                        <p><?php _e('İndirimler otomatik olarak uygulanmadıysa, aşağıdaki butona tıklayarak manuel olarak uygulayabilirsiniz.', 'woocommerce-reduction-categorie'); ?></p>
-                        <form method="post" action="">
-                            <?php wp_nonce_field('apply_discounts_manually', 'apply_discounts_nonce'); ?>
-                            <input type="hidden" name="apply_discounts_manually" value="1">
-                            <input type="submit" class="button button-primary" value="<?php _e('İndirimleri Şimdi Uygula', 'woocommerce-reduction-categorie'); ?>">
-                        </form>
-                    </div>
-                </div>
-                
-                <!-- Ayarlar sekmesi -->
-                <div id="settings" class="tab-content" style="display: none;">
-                    <h2><?php _e('Genel Ayarlar', 'woocommerce-reduction-categorie'); ?></h2>
-                    
-                    <form method="post" action="options.php">
-                        <?php settings_fields('wc_kategori_indirim_settings'); ?>
-                        <?php do_settings_sections('wc_kategori_indirim_settings'); ?>
-                        
-                        <table class="form-table">
-                            <tr valign="top">
-                                <th scope="row"><?php _e('Rozet Rengi', 'woocommerce-reduction-categorie'); ?></th>
-                                <td>
-                                    <input type="color" name="wc_kategori_indirim_badge_color" value="<?php echo esc_attr(get_option('wc_kategori_indirim_badge_color', '#dd3333')); ?>" />
-                                </td>
-                            </tr>
-                        </table>
-                        
-                        <?php submit_button(); ?>
-                    </form>
-                </div>
-                
-                <!-- Yardım sekmesi -->
-                <div id="help" class="tab-content" style="display: none;">
-                    <h2><?php _e('Nasıl Çalışır?', 'woocommerce-reduction-categorie'); ?></h2>
-                    <ol>
-                        <li><?php _e('Yeni bir indirim eklemek için "İndirimler" sekmesinden "İndirim Adı" ve diğer bilgileri girin.', 'woocommerce-reduction-categorie'); ?></li>
-                        <li><?php _e('İndirim türünü (kategori veya marka) seçin.', 'woocommerce-reduction-categorie'); ?></li>
-                        <li><?php _e('Seçiminize göre kategori veya marka belirleyin.', 'woocommerce-reduction-categorie'); ?></li>
-                        <li><?php _e('İndirim oranını belirleyin.', 'woocommerce-reduction-categorie'); ?></li>
-                        <li><?php _e('Ürünlerin üzerinde görünecek olan rozet metnini girin.', 'woocommerce-reduction-categorie'); ?></li>
-                        <li><?php _e('İsterseniz indirimin geçerlilik süresini belirleyin.', 'woocommerce-reduction-categorie'); ?></li>
-                        <li><?php _e('"Yeni İndirim Ekle" butonuna tıklayarak indirimi kaydedin.', 'woocommerce-reduction-categorie'); ?></li>
-                        <li><?php _e('İndirimler otomatik olarak uygulanacaktır. Ancak herhangi bir sorun yaşarsanız, "İndirimleri Şimdi Uygula" butonunu kullanabilirsiniz.', 'woocommerce-reduction-categorie'); ?></li>
-                    </ol>
-                    
-                    <h3><?php _e('Not:', 'woocommerce-reduction-categorie'); ?></h3>
-                    <ul>
-                        <li><?php _e('Bu eklenti, ürünlerin gerçek satış fiyatlarını değiştirir, bu nedenle sepet ve ödeme sayfalarında da indirimli fiyatlar görünür.', 'woocommerce-reduction-categorie'); ?></li>
-                        <li><?php _e('Birden fazla indirim aynı ürüne uygulanabilir durumda ise, en yüksek indirim oranı geçerli olacaktır.', 'woocommerce-reduction-categorie'); ?></li>
-                        <li><?php _e('Son kullanma tarihi geçen indirimler otomatik olarak devre dışı bırakılır.', 'woocommerce-reduction-categorie'); ?></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <!-- Sekme navigasyonu için JavaScript -->
-            <script type="text/javascript">
-            jQuery(document).ready(function($) {
-                // Sekme navigasyonu
-                $('.nav-tab-wrapper a').on('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Aktif sekmeyi değiştir
-                    $('.nav-tab-wrapper a').removeClass('nav-tab-active');
-                    $(this).addClass('nav-tab-active');
-                    
-                    // İlgili içeriği göster/gizle
-                    $('.tab-content').hide();
-                    $($(this).attr('href')).show();
-                });
-                
-                // İndirim türüne göre alan gösterme/gizleme
-                function toggleDiscountTypeFields() {
-                    var selectedType = $('#discount-type').val();
-                    
-                    if (selectedType === 'category') {
-                        $('#discount-category-row').show();
-                        $('#discount-category-select').prop('disabled', false);
-                        $('#discount-brand-row').hide();
-                        $('#discount-brand-select').prop('disabled', true);
-                    } else {
-                        $('#discount-category-row').hide();
-                        $('#discount-category-select').prop('disabled', true);
-                        $('#discount-brand-row').show();
-                        $('#discount-brand-select').prop('disabled', false);
-                    }
-                }
-                
-                // İlk yüklemede uygula
-                toggleDiscountTypeFields();
-                
-                // Seçim değiştiğinde uygula
-                $('#discount-type').on('change', toggleDiscountTypeFields);
-            });
-            </script>
-            
-            <!-- CSS Stilleri -->
-            <style>
-            .tab-content {
-                margin-top: 20px;
-            }
-            
-            .status-active {
-                color: #46b450;
-                font-weight: bold;
-            }
-            
-            .status-inactive {
-                color: #dc3232;
-            }
-            
-            .wc-kategori-indirim-info {
-                margin-top: 20px;
-                padding: 15px;
-                background-color: #f8f8f8;
-                border-radius: 5px;
-            }
-            </style>
-        </div>
-        <?php
-    }
-
-    // Süresi geçmiş indirimleri kontrol et
-    public function check_expired_discounts() {
-        $discounts = get_option('wc_kategori_indirim_discounts', array());
-        $updated = false;
-        
-        foreach ($discounts as $id => $discount) {
-            // Eğer son kullanma tarihi varsa ve geçmişse
-            if (!empty($discount['end_date'])) {
-                $end_date = strtotime($discount['end_date']);
-                $today = strtotime('today');
-                
-                if ($end_date < $today && $discount['enabled']) {
-                    // İndirimi devre dışı bırak
-                    $discounts[$id]['enabled'] = 0;
-                    $updated = true;
-                }
-            }
-        }
-        
-        if ($updated) {
-            update_option('wc_kategori_indirim_discounts', $discounts);
-            $this->apply_discounts_to_products();
-        }
-    }<?php
+<?php
 /**
- * Plugin Name: WooCommerce Kategori ve Marka İndirimi
+ * Plugin Name: WooCommerce Réduction par Catégorie
  * Plugin URI: http://yourwebsite.com
- * Description: Belirli kategorilere veya markalara toplu indirim uygulayın ve son kullanma tarihi belirleyin.
- * Version: 2.0
+ * Description: Permet d'appliquer une réduction en masse à tous les produits d'une catégorie spécifique.
+ * Version: 1.0
  * Author: Your Name
  * Author URI: http://yourwebsite.com
  * Text Domain: woocommerce-reduction-categorie
@@ -277,13 +32,13 @@ function wckategori_indirim_woocommerce_missing_notice() {
     echo '<div class="error"><p>' . sprintf(__('L\'extension WooCommerce Réduction par Catégorie nécessite que %sWooCommerce%s soit installé et activé.', 'woocommerce-reduction-categorie'), '<a href="https://wordpress.org/plugins/woocommerce/" target="_blank">', '</a>') . '</p></div>';
 }
 
-// Eklentinin ana sınıfı
+// Classe principale de l'extension
 class WC_Kategori_Indirim {
     
-    // Sınıf örneği
+    // Instance de classe
     protected static $instance = null;
     
-    // Sınıf örneğini alma
+    // Obtenir l'instance de classe
     public static function instance() {
         if (is_null(self::$instance)) {
             self::$instance = new self();
@@ -291,74 +46,71 @@ class WC_Kategori_Indirim {
         return self::$instance;
     }
     
-    // Yapıcı metod
+    // Constructeur
     public function __construct() {
         add_action('admin_menu', array($this, 'add_admin_menu'));
         add_action('admin_init', array($this, 'register_settings'));
         add_action('admin_init', array($this, 'handle_apply_discounts_manually'));
         
-        // İndirimlerin uygulanması için kancalar
+        // Hooks pour l'application des remises
         add_action('woocommerce_loaded', array($this, 'apply_discounts_to_products'));
         
-        // İndirim rozetlerini göstermek için kancalar
+        // Hooks pour l'affichage des badges (uniquement)
         add_action('wp_head', array($this, 'add_discount_badge_css'));
         add_action('woocommerce_before_shop_loop_item_title', array($this, 'add_discount_badge'), 10);
         
-        // Ürün ve kategori sayfalarında indirim bilgilerini gösterme
-        add_action('woocommerce_single_product_summary', array($this, 'add_discount_info_on_single'), 11);
-        add_action('woocommerce_archive_description', array($this, 'add_discount_info_on_category'), 5);
+        // Ne plus afficher d'informations sur la page produit et la page de catégorie
+        // add_action('woocommerce_single_product_summary', array($this, 'add_discount_info_on_single'), 11);
+        // add_action('woocommerce_archive_description', array($this, 'add_discount_info_on_category'), 5);
         
-        // Bilgi meta kutusu
+        // Métabox d'information
         add_action('add_meta_boxes', array($this, 'add_discount_info_box'));
-        
-        // Zamanlanmış görevler için kanca
-        add_action('wc_kategori_indirim_check_expired', array($this, 'check_expired_discounts'));
-        
-        // Zamanlanmış görevi etkinleştir
-        if (!wp_next_scheduled('wc_kategori_indirim_check_expired')) {
-            wp_schedule_event(time(), 'hourly', 'wc_kategori_indirim_check_expired');
-        }
     }
     
-    // İndirimlerin manuel olarak uygulanmasını işle
+    // Traiter le formulaire d'application manuelle des réductions
     public function handle_apply_discounts_manually() {
         if (isset($_POST['apply_discounts_manually']) && $_POST['apply_discounts_manually'] == '1') {
-            // Güvenlik için nonce kontrolü
+            // Vérifier le nonce pour la sécurité
             if (!isset($_POST['apply_discounts_nonce']) || !wp_verify_nonce($_POST['apply_discounts_nonce'], 'apply_discounts_manually')) {
-                wp_die(__('Güvenlik hatası: Bu işlemi gerçekleştirme izniniz yok.', 'woocommerce-reduction-categorie'));
+                wp_die(__('Sécurité : impossible de traiter cette action.', 'woocommerce-reduction-categorie'));
             }
             
-            // İndirimleri şimdi uygula
+            // Appliquer les réductions maintenant
             $this->apply_discounts_to_products();
             
-            // Başarı mesajı ekle
+            // Ajouter un message de succès
             add_action('admin_notices', function() {
-                echo '<div class="notice notice-success is-dismissible"><p>' . __('İndirimler başarıyla uygulandı!', 'woocommerce-reduction-categorie') . '</p></div>';
+                echo '<div class="notice notice-success is-dismissible"><p>' . __('Les réductions ont été appliquées avec succès !', 'woocommerce-reduction-categorie') . '</p></div>';
             });
         }
     }
     
-    // Yönetim menüsüne ekle
+    // Ajouter au menu d'administration
     public function add_admin_menu() {
         add_submenu_page(
             'woocommerce',
-            __('Kategori ve Marka İndirimleri', 'woocommerce-reduction-categorie'),
-            __('Kategori ve Marka İndirimleri', 'woocommerce-reduction-categorie'),
+            __('Réduction par Catégorie', 'woocommerce-reduction-categorie'),
+            __('Réduction par Catégorie', 'woocommerce-reduction-categorie'),
             'manage_woocommerce',
             'wc-kategori-indirim',
             array($this, 'admin_page')
         );
     }
     
-    // Ayarları kaydetme
+    // Enregistrer les paramètres
     public function register_settings() {
-        register_setting('wc_kategori_indirim_settings', 'wc_kategori_indirim_discounts', array($this, 'settings_updated'));
+        register_setting('wc_kategori_indirim_settings', 'wc_kategori_indirim_category', array($this, 'settings_updated'));
+        register_setting('wc_kategori_indirim_settings', 'wc_kategori_indirim_brand', array($this, 'settings_updated'));
+        register_setting('wc_kategori_indirim_settings', 'wc_kategori_indirim_type', array($this, 'settings_updated'));
+        register_setting('wc_kategori_indirim_settings', 'wc_kategori_indirim_amount', array($this, 'settings_updated'));
+        register_setting('wc_kategori_indirim_settings', 'wc_kategori_indirim_badge_text', array($this, 'settings_updated'));
         register_setting('wc_kategori_indirim_settings', 'wc_kategori_indirim_badge_color', array($this, 'settings_updated'));
+        register_setting('wc_kategori_indirim_settings', 'wc_kategori_indirim_enabled', array($this, 'settings_updated'));
     }
     
-    // Ayarlar güncellendiğinde çalışacak fonksiyon
+    // Callback lorsque les paramètres sont mis à jour
     public function settings_updated($value) {
-        // Ayarlar güncellendiğinde indirimleri uygula
+        // Déclencher l'application des remises après la mise à jour des paramètres
         add_action('shutdown', array($this, 'apply_discounts_to_products'));
         return $value;
     }
