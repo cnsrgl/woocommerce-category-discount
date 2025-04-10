@@ -1,0 +1,106 @@
+/**
+ * WooCommerce Réduction par Catégorie Styles
+ */
+
+.wc-kategori-indirim-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 9;
+    color: #ffffff;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 50px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transform: rotate(5deg);
+}
+
+.wc-kategori-indirim-info {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f8f8;
+    border-radius: 5px;
+}
+
+.wc-kategori-indirim-single-info {
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.wc-kategori-indirim-single-info:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 50px 50px 0;
+}
+
+.wc-kategori-indirim-single-info h4 {
+    margin-top: 0;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.wc-kategori-indirim-single-info .discount-amount {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.wc-kategori-indirim-single-info .price-comparison {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.wc-kategori-indirim-single-info .original-price {
+    text-decoration: line-through;
+    opacity: 0.7;
+    margin-right: 15px;
+}
+
+.wc-kategori-indirim-single-info .new-price {
+    font-weight: bold;
+}
+
+/* Styles du panneau d'administration */
+.wc-kategori-indirim-admin-info {
+    padding: 15px;
+    margin: 15px 0;
+    background-color: #f0f8ff;
+    border-left: 4px solid #4a77bd;
+}
+
+.wc-kategori-indirim-admin-info h3 {
+    margin-top: 0;
+    color: #4a77bd;
+}
+
+/* Styles de la boîte d'information sur la réduction */
+#wc_kategori_indirim_info .inside {
+    padding: 12px;
+}
+
+/* Améliorations de la mise en page de la page des paramètres */
+.wc-kategori-indirim-form-table th {
+    padding: 20px 10px 20px 0;
+    width: 200px;
+}
+
+.wc-kategori-indirim-form-table td {
+    padding: 15px 10px;
+}
+
+.wc-kategori-indirim-form-table .description {
+    font-style: italic;
+    color: #666;
+    margin-top: 5px;
+}

@@ -1,0 +1,185 @@
+# Copyright (C) 2025 Your Name
+# This file is distributed under the same license as the WooCommerce Réduction par Catégorie package.
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Réduction par Catégorie 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-category-discount\n"
+"POT-Creation-Date: 2025-04-10 12:00:00+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2025-04-10 12:00:00+00:00\n"
+"Last-Translator: Your Name <your-email@example.com>\n"
+"Language-Team: English <en@li.org>\n"
+"Language: en_US\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: woocommerce-category-discount.php:31
+msgid "L'extension WooCommerce Réduction par Catégorie nécessite que %sWooCommerce%s soit installé et activé."
+msgstr "The WooCommerce Category Discount extension requires %sWooCommerce%s to be installed and activated."
+
+#: woocommerce-category-discount.php:78
+msgid "Sécurité : impossible de traiter cette action."
+msgstr "Security: unable to process this action."
+
+#: woocommerce-category-discount.php:85
+msgid "Les réductions ont été appliquées avec succès !"
+msgstr "Discounts have been successfully applied!"
+
+#: woocommerce-category-discount.php:93
+#: woocommerce-category-discount.php:94
+#: woocommerce-category-discount.php:159
+msgid "Réduction par Catégorie"
+msgstr "Category Discount"
+
+#: woocommerce-category-discount.php:164
+msgid "Activer la réduction"
+msgstr "Enable discount"
+
+#: woocommerce-category-discount.php:171
+msgid "Type de réduction"
+msgstr "Discount type"
+
+#: woocommerce-category-discount.php:174
+msgid "Par catégorie"
+msgstr "By category"
+
+#: woocommerce-category-discount.php:175
+msgid "Par marque"
+msgstr "By brand"
+
+#: woocommerce-category-discount.php:180
+msgid "Sélectionner une catégorie"
+msgstr "Select a category"
+
+#: woocommerce-category-discount.php:183
+msgid "Choisir une catégorie"
+msgstr "Choose a category"
+
+#: woocommerce-category-discount.php:196
+msgid "Sélectionner une marque"
+msgstr "Select a brand"
+
+#: woocommerce-category-discount.php:199
+msgid "Choisir une marque"
+msgstr "Choose a brand"
+
+#: woocommerce-category-discount.php:232
+msgid "Aucune marque trouvée. Installez un plugin de marques."
+msgstr "No brands found. Please install a brand plugin."
+
+#: woocommerce-category-discount.php:239
+msgid "Taux de réduction (%)"
+msgstr "Discount rate (%)"
+
+#: woocommerce-category-discount.php:245
+msgid "Texte du badge de réduction"
+msgstr "Discount badge text"
+
+#: woocommerce-category-discount.php:251
+msgid "Couleur du badge"
+msgstr "Badge color"
+
+#: woocommerce-category-discount.php:262
+msgid "Appliquer les réductions maintenant"
+msgstr "Apply discounts now"
+
+#: woocommerce-category-discount.php:263
+msgid "Si les réductions ne sont pas appliquées automatiquement, cliquez sur le bouton ci-dessous pour les appliquer manuellement."
+msgstr "If discounts are not applied automatically, click the button below to apply them manually."
+
+#: woocommerce-category-discount.php:266
+msgid "Appliquer les réductions maintenant"
+msgstr "Apply discounts now"
+
+#: woocommerce-category-discount.php:272
+msgid "Comment ça marche ?"
+msgstr "How does it work?"
+
+#: woocommerce-category-discount.php:274
+msgid "Sélectionnez le type de réduction (catégorie ou marque)."
+msgstr "Select the discount type (category or brand)."
+
+#: woocommerce-category-discount.php:275
+msgid "Choisissez la catégorie ou la marque concernée."
+msgstr "Choose the relevant category or brand."
+
+#: woocommerce-category-discount.php:276
+msgid "Définissez le taux de réduction."
+msgstr "Set the discount rate."
+
+#: woocommerce-category-discount.php:277
+msgid "Personnalisez l'apparence du badge de réduction."
+msgstr "Customize the appearance of the discount badge."
+
+#: woocommerce-category-discount.php:278
+msgid "Enregistrez les paramètres."
+msgstr "Save the settings."
+
+#: woocommerce-category-discount.php:279
+msgid "La réduction sera automatiquement appliquée à tous les produits concernés."
+msgstr "The discount will be automatically applied to all relevant products."
+
+#: woocommerce-category-discount.php:282
+msgid "Note :"
+msgstr "Note:"
+
+#: woocommerce-category-discount.php:282
+msgid "Cette réduction modifie réellement le prix affiché et sera visible dans le panier et à la caisse."
+msgstr "This discount actually modifies the displayed price and will be visible in the cart and at checkout."
+
+#: woocommerce-category-discount.php:432
+msgid "Profitez de %s%% de réduction sur ce produit !"
+msgstr "Enjoy %s%% discount on this product!"
+
+#: woocommerce-category-discount.php:456
+msgid "catégorie"
+msgstr "category"
+
+#: woocommerce-category-discount.php:456
+msgid "marque"
+msgstr "brand"
+
+#: woocommerce-category-discount.php:454
+msgid "&#11088; OFFRE SPÉCIALE : %s%% DE RÉDUCTION"
+msgstr "&#11088; SPECIAL OFFER: %s%% DISCOUNT"
+
+#: woocommerce-category-discount.php:456
+msgid "Tous les produits de cette %s bénéficient actuellement d'une réduction exceptionnelle! Profitez-en dès maintenant."
+msgstr "All products in this %s currently benefit from an exceptional discount! Take advantage of it now."
+
+#: woocommerce-category-discount.php:490
+msgid "Informations sur la réduction par catégorie"
+msgstr "Category discount information"
+
+#: woocommerce-category-discount.php:501
+msgid "La réduction par catégorie/marque n'est pas activée actuellement."
+msgstr "Category/brand discount is not currently enabled."
+
+#: woocommerce-category-discount.php:512
+msgid "Aucune %s n'a été sélectionnée."
+msgstr "No %s has been selected."
+
+#: woocommerce-category-discount.php:523
+msgid "Ce produit est dans la %s \"%s\" et bénéficie actuellement d'une réduction de %s%%."
+msgstr "This product is in the %s \"%s\" and currently benefits from a %s%% discount."
+
+#: woocommerce-category-discount.php:538
+msgid "Prix original:"
+msgstr "Original price:"
+
+#: woocommerce-category-discount.php:539
+msgid "Prix réduit:"
+msgstr "Discounted price:"
+
+#: woocommerce-category-discount.php:542
+msgid "Attention:"
+msgstr "Warning:"
+
+#: woocommerce-category-discount.php:542
+msgid "La réduction sera appliquée après enregistrement des paramètres de réduction."
+msgstr "The discount will be applied after saving the discount settings."
+
+#: woocommerce-category-discount.php:547
+msgid "Ce produit n'est pas dans la %s \"%s\". Aucune réduction n'est appliquée."
+msgstr "This product is not in the %s \"%s\". No discount is applied."
